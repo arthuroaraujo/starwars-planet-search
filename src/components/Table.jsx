@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import MyContext from '../context/myContext';
 
 export default function Table() {
-  const { data } = useContext(MyContext);
+  const { data, name } = useContext(MyContext);
   return (
     <table>
       <thead>
@@ -24,23 +24,25 @@ export default function Table() {
       </thead>
       <tbody>
         {
-          data?.map((e) => (
-            <tr key={ e.name }>
-              <td>{e.name}</td>
-              <td>{e.rotation_period}</td>
-              <td>{e.orbital_period}</td>
-              <td>{e.diameter}</td>
-              <td>{e.climate}</td>
-              <td>{e.gravity}</td>
-              <td>{e.terrain}</td>
-              <td>{e.surface_water}</td>
-              <td>{e.population}</td>
-              <td>{e.films}</td>
-              <td>{e.created}</td>
-              <td>{e.edited}</td>
-              <td>{e.url}</td>
-            </tr>
-          ))
+          data?.filter((e) => e.name.toLowerCase()
+            .includes(name.toLowerCase()))
+            .map((e) => (
+              <tr key={ e.name }>
+                <td>{e.name}</td>
+                <td>{e.rotation_period}</td>
+                <td>{e.orbital_period}</td>
+                <td>{e.diameter}</td>
+                <td>{e.climate}</td>
+                <td>{e.gravity}</td>
+                <td>{e.terrain}</td>
+                <td>{e.surface_water}</td>
+                <td>{e.population}</td>
+                <td>{e.films}</td>
+                <td>{e.created}</td>
+                <td>{e.edited}</td>
+                <td>{e.url}</td>
+              </tr>
+            ))
         }
       </tbody>
     </table>

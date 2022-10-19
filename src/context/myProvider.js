@@ -4,14 +4,14 @@ import MyContext from './myContext';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
-  //     const [name, setName] = useState('');
+  const [name, setName] = useState('');
   //     const [gender, setGender] = useState('');
   //     const [episodes, setEpisodes] = useState('Maior que');
   //     const [quanti, setQuanti] = useState('');
 
-  //    const handleName = ({ target }) => {
-  //     setName(target.value)
-  //     };
+  const handleName = ({ target }) => {
+    setName(target.value);
+  };
 
   //     const handleGender = ({ target }) => {
   //      setGender(target.value)
@@ -42,7 +42,11 @@ function Provider({ children }) {
     requestAPI();
   }, []);
 
-  const contextValue = useMemo(() => ({ data }), [data]);
+  const contextValue = useMemo(() => ({
+    data,
+    name,
+    handleName,
+  }), [data, name]);
 
   return (
     <MyContext.Provider value={ contextValue }>
