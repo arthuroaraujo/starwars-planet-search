@@ -1,8 +1,18 @@
+import { array } from 'prop-types';
 import React, { useContext } from 'react';
 import myContext from '../context/myContext';
 
 export default function Forms() {
-  const { name, handleName } = useContext(myContext);
+  const { name,
+    handleName,
+    column,
+    handleColumn,
+    operator,
+    handleOperator,
+    quanti,
+    handleQuanti,
+    filterSelect } = useContext(myContext);
+
   return (
     <form>
       <div>
@@ -16,50 +26,51 @@ export default function Forms() {
             onChange={ handleName }
           />
         </label>
-        {/*
-        <br />
-
-        <label htmlFor="gender">
-          Gênero:
+        <label htmlFor="column-filter">
+          Coluna:
           <select
-            name="gender"
-            id="gender"
-            value={ gender }
-            onChange={ handleGender }
+            data-testid="column-filter"
+            name="column-filter"
+            id="column-filter"
+            value={ column }
+            onChange={ handleColumn }
           >
-            <option value="">Todos</option>
-            <option value="Female">Female</option>
-            <option value="Male">Male</option>
+            <option value="population">population</option>
+            <option value="orbital_period">orbital_period</option>
+            <option value="diameter">diameter</option>
+            <option value="rotation_period">rotation_period</option>
+            <option value="surface_water">surface_water</option>
           </select>
         </label>
-
-        <br />
-
-        <label htmlFor="episodes">
-          Episódios:
+        <label htmlFor="comparison-filter">
+          Operador:
           <select
-            name="episodes"
-            id="episodes"
-            value={ episodes }
-            onChange={ handleEpisodes }
+            data-testid="comparison-filter"
+            name="comparison-filter"
+            id="comparison-filter"
+            value={ operator }
+            onChange={ handleOperator }
           >
-            <option value="Maior que">Maior que</option>
-            <option value="Menor que">Menor que</option>
-            <option value="Igual a">Igual a</option>
+            <option value="maior que">maior que</option>
+            <option value="menor que">menor que</option>
+            <option value="igual a">igual a</option>
           </select>
         </label>
-
-        <br />
         <label htmlFor="quanti">
           <input
-            type="text"
+            data-testid="value-filter"
+            type="number"
             value={ quanti }
             onChange={ handleQuanti }
           />
         </label>
-        <button>
-          Filtrar episódio
-        </button> */}
+        <button
+          data-testid="button-filter"
+          type="button"
+          onClick={ () => filterSelect(array) }
+        >
+          Filtrar
+        </button>
       </div>
     </form>
   );
