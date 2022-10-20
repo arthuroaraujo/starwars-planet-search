@@ -9,7 +9,6 @@ function Provider({ children }) {
   const [column, setColumn] = useState('population');
   const [operator, setOperator] = useState('maior que');
   const [quanti, setQuanti] = useState(0);
-  //   const [click, setClick] = useState(false);
 
   const handleName = ({ target }) => {
     setName(target.value);
@@ -27,22 +26,25 @@ function Provider({ children }) {
     setQuanti(target.value);
   };
 
-  //   const handleClick = ({ target }) => {
-  //     setClick(target.value);
-  //   };
-
-  const filterSelect = (array) => {
-    //     if (click.length === 0) {
-    //       return array;
-    //     }
-    array.filter((e) => {
-      switch (operator) {
-      case 'maior que': return Number(e[column]) > Number(quanti);
-      case 'menor que': return Number(e[column]) < Number(quanti);
-      case 'igual a': return Number(e[column]) === Number(quanti);
-      default: return e;
-      }
-    });
+  const filterSelect = () => {
+    switch (operator) {
+    case 'maior que': {
+      const arr = data.filter((e) => Number(e[column]) > Number(quanti));
+      setData(arr);
+    }
+      break;
+    case 'menor que': {
+      const arr = data.filter((e) => Number(e[column]) < Number(quanti));
+      setData(arr);
+    }
+      break;
+    case 'igual a': {
+      const arr = data.filter((e) => Number(e[column]) === Number(quanti));
+      setData(arr);
+    }
+      break;
+    default: return operator;
+    }
   };
 
   useEffect(() => {
