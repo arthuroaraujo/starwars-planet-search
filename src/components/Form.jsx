@@ -1,4 +1,3 @@
-import { array } from 'prop-types';
 import React, { useContext } from 'react';
 import myContext from '../context/myContext';
 
@@ -11,7 +10,9 @@ export default function Forms() {
     handleOperator,
     quanti,
     handleQuanti,
-    filterSelect } = useContext(myContext);
+    filterSelect,
+    columnArr,
+  } = useContext(myContext);
 
   return (
     <form>
@@ -35,11 +36,14 @@ export default function Forms() {
             value={ column }
             onChange={ handleColumn }
           >
-            <option value="population">population</option>
+            {
+              columnArr?.map((e) => (<option key={ e } value={ e }>{e}</option>))
+            }
+            {/* <option value="population">population</option>
             <option value="orbital_period">orbital_period</option>
             <option value="diameter">diameter</option>
             <option value="rotation_period">rotation_period</option>
-            <option value="surface_water">surface_water</option>
+            <option value="surface_water">surface_water</option> */}
           </select>
         </label>
         <label htmlFor="comparison-filter">
@@ -67,7 +71,7 @@ export default function Forms() {
         <button
           data-testid="button-filter"
           type="button"
-          onClick={ () => filterSelect(array) }
+          onClick={ () => filterSelect() }
         >
           Filtrar
         </button>
