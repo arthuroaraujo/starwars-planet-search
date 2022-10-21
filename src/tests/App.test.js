@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
-import { mockFetch } from '../../cypress/mocks/fetch'
+import testData from '../../cypress/mocks/testData'
 
 describe('Testando a aplicação', () => {
   test('Testando o input name', async () => {
@@ -56,9 +56,9 @@ describe('Testando a aplicação', () => {
     expect(buttonEl).toBeEnabled();
     });
 
-  test('Testando o fetch', async () => {
+  test('Testando o maior que', async () => {
     global.fetch = jest.fn(async () => ({
-      json: async () => mockFetch
+      json: async () => testData
     }));
     render(<App />);
 
@@ -68,6 +68,91 @@ describe('Testando a aplicação', () => {
       });
       expect(tatooine).toBeInTheDocument();
     })
+
+    const inputColumnEl = screen.getByTestId('column-filter');
+    userEvent.selectOptions((inputColumnEl), ['population']);
+
+    const inputOperatorEl = screen.getByTestId('comparison-filter');
+    userEvent.selectOptions((inputOperatorEl), ['maior que']);
+
+    const inputValueEl = screen.getByTestId('value-filter');
+    userEvent.type(inputValueEl, '10000');
+
+    const buttonEl = screen.getByTestId('button-filter');
+    userEvent.click(buttonEl);
+
+    await waitFor(() => {
+      const tatooine = screen.getByRole('cell', {
+        name: /tatooine/i
+      });
+      expect(tatooine).toBeInTheDocument();
+    })
     });
+
+    test('Testando o menor que', async () => {
+      global.fetch = jest.fn(async () => ({
+        json: async () => testData
+      }));
+      render(<App />);
+  
+      await waitFor(() => {
+        const tatooine = screen.getByRole('cell', {
+          name: /tatooine/i
+        });
+        expect(tatooine).toBeInTheDocument();
+      })
+  
+      const inputColumnEl = screen.getByTestId('column-filter');
+      userEvent.selectOptions((inputColumnEl), ['population']);
+  
+      const inputOperatorEl = screen.getByTestId('comparison-filter');
+      userEvent.selectOptions((inputOperatorEl), ['menor que']);
+  
+      const inputValueEl = screen.getByTestId('value-filter');
+      userEvent.type(inputValueEl, '10000');
+  
+      const buttonEl = screen.getByTestId('button-filter');
+      userEvent.click(buttonEl);
+  
+      await waitFor(() => {
+        const yavinIV = screen.getByRole('cell', {
+          name: /yavin iv/i
+        });
+        expect(yavinIV).toBeInTheDocument();
+      })
+      });
+
+      test('Testando o igual a', async () => {
+        global.fetch = jest.fn(async () => ({
+          json: async () => testData
+        }));
+        render(<App />);
+    
+        await waitFor(() => {
+          const tatooine = screen.getByRole('cell', {
+            name: /tatooine/i
+          });
+          expect(tatooine).toBeInTheDocument();
+        })
+    
+        const inputColumnEl = screen.getByTestId('column-filter');
+        userEvent.selectOptions((inputColumnEl), ['population']);
+    
+        const inputOperatorEl = screen.getByTestId('comparison-filter');
+        userEvent.selectOptions((inputOperatorEl), ['igual a']);
+    
+        const inputValueEl = screen.getByTestId('value-filter');
+        userEvent.type(inputValueEl, '1000');
+    
+        const buttonEl = screen.getByTestId('button-filter');
+        userEvent.click(buttonEl);
+    
+        await waitFor(() => {
+          const yavinIV = screen.getByRole('cell', {
+            name: /yavin iv/i
+          });
+          expect(yavinIV).toBeInTheDocument();
+        })
+        });
 });
 

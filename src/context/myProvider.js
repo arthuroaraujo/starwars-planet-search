@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import MyContext from './myContext';
 
@@ -35,33 +35,7 @@ function Provider({ children }) {
     setQuanti(target.value);
   };
 
-  // const filterSelect = useCallback(() => {
-  //   const filterColumn = colArr.filter((e) => e !== column);
-  //   setFilters([...filters, { column, operator, quanti }]);
-  //   setColumnArr(filterColumn);
-  //   console.log(filters, column, operator, quanti);
-  //   console.log('estou sendo chamado');
-  //   switch (operator) {
-  //   case 'maior que': {
-  //     const arr = data.filter((e) => Number(e[column]) > Number(quanti));
-  //     setData(arr);
-  //   }
-  //     break;
-  //   case 'menor que': {
-  //     const arr = data.filter((e) => Number(e[column]) < Number(quanti));
-  //     setData(arr);
-  //   }
-  //     break;
-  //   case 'igual a': {
-  //     const arr = data.filter((e) => Number(e[column]) === Number(quanti));
-  //     setData(arr);
-  //   }
-  //     break;
-  //   default: return operator;
-  //   }
-  // }, []);
-
-  const filterSelect = () => {
+  const filterSelect = useCallback(() => {
     const filterColumn = colArr.filter((e) => e !== column);
     setFilters([...filters, { column, operator, quanti }]);
     setColumn(filterColumn[0]);
@@ -69,14 +43,13 @@ function Provider({ children }) {
     // setQuanti(quanti);
     setColumnArr(filterColumn);
     // console.log(filters, column, operator, quanti);
-  };
+  }, [colArr, column, filters, operator, quanti]);
 
   useEffect(() => {
     const requestAPI = async () => {
       const response = await fetch('https://swapi.dev/api/planets');
       const { results } = await response.json();
       setData(results);
-      // setOriginalArr(results);
     };
     requestAPI();
   }, []);
